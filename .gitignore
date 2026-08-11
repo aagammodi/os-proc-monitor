@@ -1,0 +1,5 @@
+# Compiled executables
+*.o
+*.out
+*.exe
+proc_monitor
