@@ -1,4 +1,4 @@
-#include "../include/system_monitor.h"
+#include "../include/system_info.h"
 
 #include <fstream>
 #include <iomanip>
@@ -46,7 +46,11 @@ CPUInfo getCPUInfo(){
         }
     }
 
-    if (info.modelName.empty() || info.logicalProcessors == 0){
+    if(info.modelName.empty()){
+        info.modelName = "Model Unknown";
+    }
+
+    if (info.logicalProcessors == 0){
         throw runtime_error("Unable to read CPU information");
     }
 

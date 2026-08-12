@@ -1,76 +1,38 @@
-#include "../include/system_monitor.h"
+#include "../include/monitor.h"
 
-#include <iomanip>
 #include <iostream>
 
 using namespace std;
 
-int main()
+int main(int argc, char* argv[])
 {
     try
     {
-        // CPU information
-        CPUInfo cpu = getCPUInfo();
+        //static mode
+        if(argc==1)
+        {
+            runOnce();
+            return 0;
+        }
 
-        // Memory information
-        MemoryInfo memory = getMemoryInfo();
+        //Live Mode
+        if(argc == 3 && string(argv[1]) == "-T"){
 
-        // CPU utilization, uptime and load average
-        SystemStats stats = getSystemStats();
+            int interval = stoi(argv[2]);
+            if(interval <= 0){
+                throw runtime_error("interval must be greater than 0");
+            }
 
-        cout << fixed << setprecision(2);
+            runLive(interval);
+            return 0;
+        }
 
-        cout << "==================================================\n";
-        cout << "        PROC MONITOR - SYSTEM INFORMATION\n";
-        cout << "==================================================\n\n";
+        // Invalid input
+        std::cerr << "Usage:\n";
+        std::cerr << "  " << argv[0] << "\n";
+        std::cerr << "  " << argv[0] << " -T <interval>\n";
 
-        cout << "[1] CPU & MEMORY INFORMATION\n";
-        cout << "--------------------------------------------------\n";
-
-        cout << "CPU Model : "
-             << cpu.modelName << '\n';
-
-        cout << "Logical CPUs : "
-             << cpu.logicalProcessors << '\n';
-
-        cout << "Total Memory : "
-             << memory.totalGB << " GB\n";
-
-        cout << "Available Memory : "
-             << memory.availableGB << " GB\n";
-
-        cout << "Free Memory : "
-             << memory.freeGB << " GB\n";
-
-        cout << "Memory Usage : "
-             << memory.usagePercentage << "%\n";
-
-        cout << "--------------------------------------------------\n\n";
-
-
-        cout << "[2] CPU UTILIZATION & SYSTEM STATISTICS\n";
-        cout << "--------------------------------------------------\n";
-
-        cout << "CPU Usage : "
-             << stats.cpuUsage << "%\n";
-
-        cout << "System Uptime : "
-             << stats.uptime << '\n';
-
-        cout << "Load Average\n";
-
-        cout << "1 min : "
-             << stats.loadAverage.oneMinute << '\n';
-
-        cout << "5 min : "
-             << stats.loadAverage.fiveMinutes << '\n';
-
-        cout << "15 min : "
-             << stats.loadAverage.fifteenMinutes << '\n';
-
-        cout << "--------------------------------------------------\n";
-
-        return 0;
+        return 1;
     }
     catch (const exception& e)
     {
