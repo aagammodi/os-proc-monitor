@@ -88,7 +88,7 @@ void createProcData(vector<procInfo> &procData, vector<int> pids)
     }
 }
 
-int main()
+int mainn()
 {
     vector<int> pids;
     vector<procInfo> procData;

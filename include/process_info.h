@@ -6,16 +6,26 @@
 
 using namespace std;
 
-struct procInfo
-{
+struct ProcessInfo{
     int pid;
-    string pName;
     int ppid;
-    string procState;
-    int nTh;
-    string vmSize;
+
+    string name;
+    string state;
+    int threads;
+
+    long vmSizeMB;
+    long vmRSSMB;
+
+    unsigned long long cpuStartTime;
+    unsigned long long cpuEndTime;
+    double cpuUsage;
 };
 
-vector<procInfo> getProcessInfo();
+vector<ProcessInfo> getProcessInfo();
+
+void sampleProcesses(vector<ProcessInfo> &processes, int logicalCPUs);
+unsigned long long getSystemCPUTime();
+unsigned long long getProcessCPUTime(int pid);
 
 #endif
