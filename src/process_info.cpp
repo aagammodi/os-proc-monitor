@@ -84,13 +84,13 @@ vector<ProcessInfo> getProcessInfo()
             else if (line.find("VmSize:") == 0)
             {
                 int pos = line.find('\t');
-                p.vmSizeMB = stoi(line.substr(pos + 1)) / 1024; // Convert to MB
+                p.vmSizeKB = stoi(line.substr(pos + 1)); // Already in KB
             }
             
             else if (line.find("VmRSS:") == 0)
             {
                 int pos = line.find('\t');
-                p.vmRSSMB = stoi(line.substr(pos + 1)) / 1024; // Convert to MB
+                p.vmRSSKB = stoi(line.substr(pos + 1)); // Already in KB
             }
         }
 
@@ -114,10 +114,10 @@ void sampleProcesses(vector<ProcessInfo> &processes, int logicalCPUs)
 
     sleep(1); // Wait for 1 second
 
-    unsigned long long systemEnd = getSystemCPUTime();
-
     for (auto& p : processes)
         p.cpuEndTime = getProcessCPUTime(p.pid);
+
+    unsigned long long systemEnd = getSystemCPUTime();
 
     unsigned long long systemDelta = systemEnd - systemStart;
 

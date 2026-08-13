@@ -14,8 +14,8 @@ struct ProcessInfo{
     string state;
     int threads;
 
-    long vmSizeMB;
-    long vmRSSMB;
+    long vmSizeKB;
+    long vmRSSKB;
 
     unsigned long long cpuStartTime;
     unsigned long long cpuEndTime;

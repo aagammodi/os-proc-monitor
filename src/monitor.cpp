@@ -52,7 +52,7 @@ MonitorData getMonitorData(){
     // Sort processes by memory usage
     sort(allProcesses.begin(), allProcesses.end(), 
         [](const ProcessInfo &a, const ProcessInfo &b) {
-            return a.vmRSSMB > b.vmRSSMB;
+            return a.vmRSSKB > b.vmRSSKB;
     });
 
     // Get top 5 memory consumers
@@ -157,7 +157,7 @@ void displayMonitorData(const MonitorData &data){
              << setw(8) << p.ppid
              << setw(10) << p.state
              << setw(10) << p.threads
-             << setw(12) << p.vmSizeMB
+             << setw(12) << p.vmSizeKB / 1024
              << setw(42) << p.name
              << "\n";
     }
@@ -181,14 +181,14 @@ void displayMonitorData(const MonitorData &data){
         cout << left
              << setw(8) << (i + 1)
              << setw(8) << p.pid
-             << setw(14) << p.vmRSSMB
+             << setw(14) << p.vmRSSKB / 1024
              << setw(42) << p.name
              << "\n";
     }
     cout << string(WIDTH, '-') << "\n";
 
 
-    std::cout << "[5] TOP 5 CPU CONSUMERS\n";
+    std::cout << "TOP 5 CPU CONSUMERS\n";
     cout << string(WIDTH, '-') << "\n";
 
     cout << left
