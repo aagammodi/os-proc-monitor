@@ -18,4 +18,4 @@ run: $(TARGET)
 	./$(TARGET)
 
 live: $(TARGET)
-	./$(TARGET) -T 5
+	./$(TARGET) -T 2
