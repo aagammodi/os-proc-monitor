@@ -10,6 +10,7 @@
 
 using namespace std;
 
+// Helper function to check if a string is a number
 bool isNumber(const char *str)
 {
     for (int i = 0; str[i] != '\0'; i++)
@@ -21,6 +22,7 @@ bool isNumber(const char *str)
     return true;
 }
 
+// Gets information about all processes and returns it in a vector of ProcessInfo structs
 vector<ProcessInfo> getProcessInfo()
 {
     vector<ProcessInfo> processInfo;
@@ -102,7 +104,7 @@ vector<ProcessInfo> getProcessInfo()
     return processInfo  ;
 }
 
-
+// Samples the CPU usage of each process over a 1-second interval
 void sampleProcesses(vector<ProcessInfo> &processes, int logicalCPUs)
 {
     unsigned long long systemStart = getSystemCPUTime();
@@ -130,6 +132,7 @@ void sampleProcesses(vector<ProcessInfo> &processes, int logicalCPUs)
     }
 }
 
+// Gets the total CPU time of the system from /proc/stat
 unsigned long long getSystemCPUTime()
 {
     ifstream file("/proc/stat");
@@ -147,6 +150,7 @@ unsigned long long getSystemCPUTime()
     return total;
 }
 
+// Gets the total CPU time of a process from /proc/[pid]/stat
 unsigned long long getProcessCPUTime(int pid)
 {
     std::ifstream file("/proc/" + std::to_string(pid) + "/stat");
@@ -156,22 +160,25 @@ unsigned long long getProcessCPUTime(int pid)
     string line;
     getline(file, line);
 
+    // Skip to the part after the process name
     size_t pos = line.rfind(')');
-    if (pos == std::string::npos)
+    if (pos == string::npos)
         return 0;
 
     istringstream ss(line.substr(pos + 2));
 
+    //field 3: process state
     char state;
-    unsigned long long value[13];
-
     ss >> state;
 
-    for (auto& v : value)
-        ss >> v;
+    // Skip fields 4-13
+    unsigned long long value;
+    for (int i = 4; i <= 13; ++i)
+        ss >> value;
 
-    if (ss.fail())
-        return 0;
+    // Get utime (field 14) and stime (field 15)
+    unsigned long long utime, stime;
+    ss >> utime >> stime;
 
-    return value[10] + value[11]; // utime + stime
+    return utime + stime;
 }

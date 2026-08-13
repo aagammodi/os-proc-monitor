@@ -9,8 +9,9 @@
 
 using namespace std;
 
-int WIDTH = 60;
+constexpr int WIDTH = 90;
 
+// Gets all the data and displays it once
 void runOnce(){
     cout << fixed << setprecision(2);
 
@@ -19,6 +20,7 @@ void runOnce(){
     displayMonitorData(data);
 }
 
+// Continuously gets all the data and displays it every "interval" seconds
 void runLive(int interval){
     cout << fixed << setprecision(2);
     system("clear");
@@ -37,6 +39,7 @@ void runLive(int interval){
     }
 }
 
+// Gets all the data and returns it in a MonitorData struct
 MonitorData getMonitorData(){
     MonitorData data;
 
@@ -76,10 +79,12 @@ MonitorData getMonitorData(){
     return data;
 }
 
+// Displays the data in a formatted manner
 void displayMonitorData(const MonitorData &data){
     // Title
     cout << string(WIDTH, '=') << "\n";
-    cout << "        PROC MONITOR - SYSTEM INFORMATION\n";
+    const string title = "PROC MONITOR - SYSTEM INFORMATION";
+    cout << string((WIDTH - title.size()) / 2, ' ') << title << "\n";
     cout << string(WIDTH, '=') << "\n";
 
     
@@ -87,23 +92,23 @@ void displayMonitorData(const MonitorData &data){
     cout << "[1] CPU & MEMORY INFORMATION\n";
     cout << string(WIDTH, '-') << "\n";
 
-    cout << "CPU Model : "
-            << data.cpuInfo.modelName << '\n';
+    cout << left << setw(22) << "CPU Model" << ": ";
+    cout << data.cpuInfo.modelName << '\n';
 
-    cout << "Logical CPUs : "
-            << data.cpuInfo.logicalProcessors << '\n';
+    cout << left << setw(22) << "Logical CPUs" << ": ";
+    cout << data.cpuInfo.logicalProcessors << '\n';
 
-    cout << "Total Memory : "
-            << data.memoryInfo.totalGB << " GB\n";
+    cout << left << setw(22) << "Total Memory" << ": ";
+    cout << data.memoryInfo.totalGB << " GB\n";
 
-    cout << "Available Memory : "
-            << data.memoryInfo.availableGB << " GB\n";
+    cout << left << setw(22) << "Available Memory" << ": ";
+    cout << data.memoryInfo.availableGB << " GB\n";
 
-    cout << "Free Memory : "
-            << data.memoryInfo.freeGB << " GB\n";
+    cout << left << setw(22) << "Free Memory" << ": ";
+    cout << data.memoryInfo.freeGB << " GB\n";
 
-    cout << "Memory Usage : "
-            << data.memoryInfo.usagePercentage << "%\n";
+    cout << left << setw(22) << "Memory Usage" << ": ";
+    cout << data.memoryInfo.usagePercentage << "%\n";
 
     cout << string(WIDTH, '-') << "\n";
 
@@ -112,22 +117,22 @@ void displayMonitorData(const MonitorData &data){
     cout << "[2] CPU UTILIZATION & SYSTEM STATISTICS\n";
     cout << string(WIDTH, '-') << "\n";
 
-    cout << "CPU Usage : "
-            << data.systemStats.cpuUsage << "%\n";
+    cout << left << setw(22) << "CPU Usage" << ": ";
+    cout << data.systemStats.cpuUsage << "%\n";
 
-    cout << "System Uptime : "
-            << data.systemStats.uptime << '\n';
+    cout << left << setw(22) << "System Uptime" << ": ";
+    cout << data.systemStats.uptime << '\n';
 
     cout << "Load Average\n";
 
-    cout << " 1 min : "
-            << data.systemStats.loadAverage.oneMinute << '\n';
+    cout << "  1 min : ";
+    cout << data.systemStats.loadAverage.oneMinute << '\n';
 
-    cout << " 5 min : "
-            << data.systemStats.loadAverage.fiveMinutes << '\n';
+    cout << "  5 min : ";
+    cout << data.systemStats.loadAverage.fiveMinutes << '\n';
 
-    cout << "15 min : "
-            << data.systemStats.loadAverage.fifteenMinutes << '\n';
+    cout << " 15 min : ";
+    cout << data.systemStats.loadAverage.fifteenMinutes << '\n';
 
     cout << string(WIDTH, '-') << "\n";
 
@@ -166,7 +171,7 @@ void displayMonitorData(const MonitorData &data){
     cout << left
         << setw(8) << "Rank"
         << setw(8) << "PID"
-        << setw(12) << "Memory(MB)"
+        << setw(14) << "Memory(MB)"
         << setw(42) << "Process Name"
         << "\n";
 
@@ -176,20 +181,20 @@ void displayMonitorData(const MonitorData &data){
         cout << left
              << setw(8) << (i + 1)
              << setw(8) << p.pid
-             << setw(12) << p.vmRSSMB
+             << setw(14) << p.vmRSSMB
              << setw(42) << p.name
              << "\n";
     }
     cout << string(WIDTH, '-') << "\n";
 
 
-    std::cout << "TOP 5 CPU CONSUMERS\n";
+    std::cout << "[5] TOP 5 CPU CONSUMERS\n";
     cout << string(WIDTH, '-') << "\n";
 
     cout << left
         << setw(8) << "Rank"
         << setw(8) << "PID"
-        << setw(12) << "CPU Usage(%)"
+        << setw(14) << "CPU Usage(%)"
         << setw(42) << "Process Name"
         << "\n";
 
@@ -199,7 +204,7 @@ void displayMonitorData(const MonitorData &data){
         cout << left
              << setw(8) << (i + 1)
              << setw(8) << p.pid
-             << setw(12) << p.cpuUsage
+             << setw(14) << p.cpuUsage
              << setw(42) << p.name
              << "\n";
     }

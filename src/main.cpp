@@ -8,14 +8,14 @@ int main(int argc, char* argv[])
 {
     try
     {
-        //static mode
+        // Static mode
         if(argc==1)
         {
             runOnce();
             return 0;
         }
 
-        //Live Mode
+        // Live Mode
         if(argc == 3 && string(argv[1]) == "-T"){
 
             int interval = stoi(argv[2]);
