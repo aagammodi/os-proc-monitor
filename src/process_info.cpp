@@ -7,6 +7,7 @@
 #include <dirent.h>
 #include <cctype>
 #include <unistd.h>
+#include <stdexcept>
 
 using namespace std;
 

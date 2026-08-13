@@ -6,20 +6,20 @@
 
 using namespace std;
 
-struct ProcessInfo {
-    int pid = -1;
-    int ppid = -1;
+struct ProcessInfo{
+    int pid;
+    int ppid;
 
-    string name = "";
-    string state = "";
-    int threads = 0;
+    string name;
+    string state;
+    int threads;
 
-    long vmSizeKB = 0;
-    long vmRSSKB = 0;
+    long vmSizeKB;
+    long vmRSSKB;
 
-    unsigned long long cpuStartTime = 0;
-    unsigned long long cpuEndTime = 0;
-    double cpuUsage = 0.0;
+    unsigned long long cpuStartTime;
+    unsigned long long cpuEndTime;
+    double cpuUsage;
 };
 
 vector<ProcessInfo> getProcessInfo();

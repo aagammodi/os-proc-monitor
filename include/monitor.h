@@ -6,19 +6,29 @@
 
 #include <vector>
 
-struct MonitorData {
+struct MonitorData
+{
     CPUInfo cpuInfo;
     MemoryInfo memoryInfo;
     SystemStats systemStats;
-    vector<ProcessInfo> allProcesses;
-    vector<ProcessInfo> topMemoryConsumers;
-    vector<ProcessInfo> topCPUConsumers;
+
+    std::vector<ProcessInfo> allProcesses;
+    std::vector<ProcessInfo> topMemoryConsumers;
+    std::vector<ProcessInfo> topCPUConsumers;
 };
 
+// Static mode
 void runOnce();
+
+// Live mode
 void runLive(int interval);
 
+void runScrollableMonitor(int interval);
+
+// Collect all monitoring data
 MonitorData getMonitorData();
+
+// Print one snapshot (used by static mode)
 void displayMonitorData(const MonitorData &data);
 
 #endif
